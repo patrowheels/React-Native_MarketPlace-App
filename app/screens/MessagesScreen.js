@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, Text } from 'react-native';
 
 
 
@@ -38,13 +38,15 @@ function MessagesScreen(props) {
 
     return (
         <Screen>
+            
        <FlatList
         data={messages}
         keyExtractor={(message) => message.id.toString()}
         renderItem={({ item }) => (
+            
             <ListItem
                 title={item.title}
-                subTitle={item.description}
+                description={"htfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyrhtfyhyr"}
                 image={item.image}
                 onPress={() => console.log("Message selected", item)}
                 renderRightActions={() => 

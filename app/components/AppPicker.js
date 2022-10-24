@@ -9,12 +9,13 @@ import defaultStyles from "../config/styles";
 import AppText from './AppText/AppText';
 
 // selected Item here is a variable
-function AppPicker({ icon, items, placeholder,selectedItem }) {
+// if theres no picker item component then the component will be picker item
+function AppPicker({ icon, items,numberOfColumns, onSelectedItem,PickerItemComponent = PickerItem, placeholder,selectedItem, width = "100%", }) {
     const [modalVisible, setModalVisible] = useState(false);
     return (
         <React.Fragment>
         <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-        <View style={styles.container}>
+        <View style={[styles.container, {width}]}>
             { icon && (<MaterialCommunityIcons 
             name={icon} 
             size={20} 
@@ -39,14 +40,20 @@ function AppPicker({ icon, items, placeholder,selectedItem }) {
         <Modal visible={modalVisible} animationType="slide">
             <Screen>
             <Button title="Close" onPress={() => setModalVisible(false)}/>
+            
             <FlatList 
             data={items}
-            keyExtractor={item => item.value.toString()}
+            // flatlist comes with a prop called numcolumns
+            numColumns={numberOfColumns}
+            keyExtractor={(item) => item.value.toString()}
             renderItem={({ item }) => (
             
-            <PickerItem
+            <PickerItemComponent
+                item={item}
                 label={item.label}
-                onPress={() => console.log(item)} 
+                onPress={() => {setModalVisible(false);
+                onSelectedItem(item)
+            } }
                 /> 
                 
             )}
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
         backgroundColor: defaultStyles.colors.light,
         borderRadius: 25,
         flexDirection: "row",
-        width: '100%',
+
         padding: 15,
         marginVertical: 10,
     },
