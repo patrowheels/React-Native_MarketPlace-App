@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
+import * as ImagePicker from 'expo-image-picker'
+
 import { View, Text, Button } from "react-native";
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
@@ -21,7 +23,7 @@ import PickerItem from "./app/components/PickerItem";
 import ListEditScreen from "./app/screens/ListEditScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
 
-
+//
 
 // select a tag hold command and D to be able to edit all of them at once
 //select lines of code hold alt and use arrows to move them
@@ -38,20 +40,33 @@ const categories = [
 
 export default function App() {
 
-  // return (
+  // This is the function that we made to solve a problem
+  const requestPermission = async () => {
+    const result = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    // This result object has a bunch of properties we can access
+    if (!result.granted)
+      alert("You need to enable permission to access the library")
+  }
 
+  return (
+    // Here we are simply calling a function and then moving on not waiting for the results
+    useEffect(() => {
+      requestPermission();
+
+    },[])
     
-  //   <Screen>
-  //      <AppPicker items={categories} icon="apps" placeholder="Category" />
-  //      <AppTextInput icon="email" placeholder="Email" />
-  //         </Screen>
+    <Screen>
+      
+       <AppPicker items={categories} icon="apps" placeholder="Category" />
+       <AppTextInput icon="email" placeholder="Email" />
+          </Screen>
 
         
-  // );
+  );
 
   // return <WelcomeScreen/>
 
-  return <ListEditScreen/>
+  // return <ListEditScreen/>
 
   // return <RegisterScreen/>
 
